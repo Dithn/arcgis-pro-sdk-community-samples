@@ -84,26 +84,38 @@ namespace BatchTracingCoreHost.Classes
 
         internal static FeatureClass TryOpenOutputFeatureClass(Geodatabase outputWorkspace, string datasetName, GeometryType geometryType, SpatialReference spatialReference, int functionFieldCount = 0)
         {
-            using var datasetDefinition = outputWorkspace.GetDefinition<FeatureClassDefinition>(datasetName);
-            if (datasetDefinition == null)
+            try
+            {
+                return outputWorkspace.OpenDataset<FeatureClass>(datasetName);
+            }
+            catch (GeodatabaseException geodatabaseException)
             {
                 Console.WriteLine(string.Format("Creating output feature class: {0}", datasetName));
                 return CreateOutputFeatureClass(outputWorkspace, datasetName, geometryType, spatialReference, functionFieldCount);
             }
-            else
-                return outputWorkspace.OpenDataset<FeatureClass>(datasetName);
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("Error opening output feature class: {0}", datasetName));
+                return null;
+            }
         }
 
         internal static Table TryOpenOutputTable(Geodatabase outputWorkspace, string datasetName)
         {
-            using var datasetDefinition = outputWorkspace.GetDefinition<TableDefinition>(datasetName);
-            if (datasetDefinition == null)
+            try
             {
-                Console.WriteLine(string.Format("Creating output feature class: {0}", datasetName));
+                return outputWorkspace.OpenDataset<FeatureClass>(datasetName);
+            }
+            catch (GeodatabaseException geodatabaseException)
+            {
+                Console.WriteLine(string.Format("Creating output table: {0}", datasetName));
                 return CreateOutputTable(outputWorkspace, datasetName);
             }
-
-            return outputWorkspace.OpenDataset<Table>(datasetName);
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("Error opening output table: {0}", datasetName));
+                return null;
+            }
         }
 
         #endregion

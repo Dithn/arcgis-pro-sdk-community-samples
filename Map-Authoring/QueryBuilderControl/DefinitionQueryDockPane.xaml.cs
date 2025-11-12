@@ -16,6 +16,7 @@
    limitations under the License.
 
 */
+using ArcGIS.Desktop.Editing.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,39 +35,18 @@ using System.Windows.Shapes;
 
 namespace QueryBuilderControl
 {
+  
   /// <summary>
   /// Interaction logic for DefinitionQueryDockPaneView.xaml
   /// </summary>
   public partial class DefinitionQueryDockPaneView : UserControl
   {
+    public static DefinitionQueryDockPaneView Current = null;
     public DefinitionQueryDockPaneView()
     {
+      //Used in the viewmodel to get access to the control
+      Current = this;
       InitializeComponent();
-
-      // trap for Expression changes
-      this.QueryBuilderControl.ExpressionChanged += QueryBuilderControl_ExpressionChanged;
-
-    }
-
-    private DefinitionQueryDockPaneViewModel ViewModel => DataContext as DefinitionQueryDockPaneViewModel;
-
-    // Update the ViewModel's Expression when the expression changes in the QueryBuilderControl.
-    private void QueryBuilderControl_ExpressionChanged(object sender, ArcGIS.Desktop.Mapping.Controls.ExpressionChangedEventArgs args)
-    {
-      if (ViewModel != null)
-      {
-        ViewModel.Expression = args.Expression;
-
-        // if interested in validating via API
-        //bool result = await QueryBuilderControl.ValidateExpression(false);
-        //var msg = QueryBuilderControl.Message;
-      }
-    }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-      if (!QueryBuilderControl.IsEditing)
-        QueryBuilderControl.ClearExpression();
-    }
+    }    
   }
 }

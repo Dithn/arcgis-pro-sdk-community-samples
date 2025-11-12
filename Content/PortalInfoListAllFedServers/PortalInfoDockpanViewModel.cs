@@ -154,7 +154,7 @@ namespace PortalInfoListAllFedServers
 			 */
 			if (!_portalUrl.Contains("arcgis.com"))
 			{
-				//get web adaptor
+				//get web adapter
 				string wa = arcGISportal.PortalUri.Segments[1];
 				_portalUrl = arcGISportal.PortalUri.ToString();
 

@@ -59,7 +59,7 @@ namespace WorkflowManagerSampleAddIn
                     if (currentSteps == null || currentSteps.Count < 1)
                     {
                         var title = "Failed Retrieving Current Step(s) on a Job";
-                        var msg = $"\nJobId: {jobId}\n";
+                        var msg = $"JobId: {jobId}";
                         MessageBox.Show(msg, title);
                         return;
                     }
@@ -69,8 +69,7 @@ namespace WorkflowManagerSampleAddIn
                 catch (Exception ex)
                 {
                     var title = "Failed Retrieving Current Step(s) on a Job";
-                    var msg = $"\nJobId: {jobId}\n"
-                        + $"\nError: {ex.Message}";
+                    var msg = $"JobId: {jobId}\nError: {ex.Message}";
                     MessageBox.Show(msg, title);
                     return;
                 }
@@ -81,13 +80,13 @@ namespace WorkflowManagerSampleAddIn
                     // Run specific current steps on the job
                     jobsManager.RunSteps(jobId, stepIds);
                     var title = "Running Step(s) on a Job";
-                    var msg = $"\nJobId: {jobId}\nStepId(s): {stepIdStr}";
+                    var msg = $"JobId: {jobId}\nStepId(s): {stepIdStr}";
                     MessageBox.Show(msg, title);
                 }
                 catch (Exception ex)
                 {
                     var title = "Failed Running Step(s) on a Job";
-                    var msg = $"\nJobId: {jobId}\nStepId(s): {stepIdStr}"
+                    var msg = $"JobId: {jobId}\nStepId(s): {stepIdStr}"
                         + $"\nError: {ex.Message}";
                     MessageBox.Show(msg, title);
                 }
@@ -97,7 +96,7 @@ namespace WorkflowManagerSampleAddIn
                     // Stop specific current steps on the job
                     jobsManager.StopSteps(jobId, stepIds);
                     var title = "Stopped Step(s) on a Job";
-                    var msg = $"\nJobId: {jobId}\nStepId(s): {stepIdStr}";
+                    var msg = $"JobId: {jobId}\nStepId(s): {stepIdStr}";
                     MessageBox.Show(msg, title);
                 }
                 catch (Exception ex)

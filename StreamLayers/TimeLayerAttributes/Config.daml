@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+   Copyright 2025 Esri
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+-->
+<ArcGIS defaultAssembly="TimeLayerAttributes.dll" defaultNamespace="TimeLayerAttributes" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{15b9f471-8833-45ee-9296-098f55dd9bfb}" version="1.0" desktopVersion="3.5.0"
+             product="ArcGISPro">
+    <Name>TimeLayerAttributes</Name>
+    <Description>TimeLayerAttributes description</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>ArcGIS Pro SDK Team, arcgisprosdk@esri.com</Author>
+    <Company>esri, https://www.esri.com</Company>
+    <Date>5/5/2025 5:13:33 PM</Date>
+    <Subject>Map Exploration</Subject>
+    <!-- Note subject can be one or more of these topics:
+                    Content, Framework, Editing, Geodatabase, Geometry, Geoprocessing, Layouts, Map Authoring, Map Exploration -->
+  </AddInInfo>
+  <modules>
+    <insertModule id="TimeLayerAttributes_Module" className="Module1" autoLoad="false" caption="Module1">
+      <!-- uncomment to have the control hosted on a separate tab-->
+      <tabs>
+        <tab id="TimeLayerAttributes_Tab1" caption="Stream Data" keytip="T1">
+          <group refID="TimeLayerAttributes_Group1"/>
+        </tab>
+      </tabs>
+      <groups>
+        <group id="TimeLayerAttributes_Group1" caption="Processing Streamed Data" keytip="G0">
+          <button refID="TimeLayerAttributes_DataTablePane_ShowButton" size="large" />
+          <button refID="esri_mapping_TimePlaybackSpeedControl" size="middle"/>
+        </group>
+      </groups>
+      <controls>
+        <button id="TimeLayerAttributes_DataTablePane_ShowButton" caption="Show Stream Data Pane" 
+                className="DataTablePane_ShowButton" loadOnClick="true" keytip="B0"
+                smallImage="LivestreamVideoLayer16" largeImage="LivestreamVideoLayer32">
+          <tooltip heading="Show Stream Data Pane">
+            Shows the Stream Data Pane used to display streamed time data<disabledText /></tooltip>
+        </button>
+      </controls>
+      <dockPanes>
+        <dockPane id="TimeLayerAttributes_DataTablePane" caption="Show Timeslider stream data" 
+                  className="DataTablePaneViewModel" dock="group" dockWith="esri_core_projectDockPane">
+          <content className="DataTablePaneView" />
+        </dockPane>
+      </dockPanes>
+    </insertModule>
+  </modules>
+</ArcGIS>

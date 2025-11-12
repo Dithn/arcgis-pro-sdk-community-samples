@@ -16,12 +16,15 @@
    limitations under the License.
 
 */
+using ArcGIS.Desktop.Core.Geoprocessing;
+using ArcGIS.Desktop.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using static GPToolInspector.TreeHelpers.TbxReader;
 
@@ -62,10 +65,41 @@ namespace GPToolInspector.TreeHelpers
       {
         SetProperty(ref _isSelected, value);
         if (!value) return;
-        // popup the tool dialog
+        // pop-up the tool dialog
         var toolDialog = new ToolDialog();
         (toolDialog.DataContext as ToolDialogViewModel).TbxToolInfo = TbxToolInfo;
         toolDialog.ShowDialog();
+      }
+    }
+
+
+    /// <summary>
+    /// Command to open the tool dialog for the toolbox item
+    /// </summary>
+    public virtual ICommand CmdToolDialog
+    {
+      get => new RelayCommand((args) =>
+      {
+        // pop-up the open tool dialog
+        System.Diagnostics.Trace.WriteLine($@"Opening tool dialog for {TbxToolInfo.ToolName}");
+        Geoprocessing.OpenToolDialog(TbxToolInfo.ToolName, null, null, newSubPane: true);
+      }, () => true);
+    }
+
+    /// <summary>
+    /// Command to open the tool inspector for the toolbox item
+    /// </summary>
+    public virtual ICommand CmdToolInspector
+    {
+      get
+      {
+        return new RelayCommand((args) =>
+        {
+          // pop-up the tool dialog
+          var toolDialog = new ToolDialog();
+          (toolDialog.DataContext as ToolDialogViewModel).TbxToolInfo = TbxToolInfo;
+          toolDialog.ShowDialog();
+        }, () => true);
       }
     }
 

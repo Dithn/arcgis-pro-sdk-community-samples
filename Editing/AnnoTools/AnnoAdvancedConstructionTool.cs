@@ -12,12 +12,18 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+using ArcGIS.Core.CIM;
+using ArcGIS.Core.Data.DDL;
+using ArcGIS.Core.Data.Mapping;
+using ArcGIS.Core.Data.UtilityNetwork.Trace;
+using ArcGIS.Core.Geometry;
+using ArcGIS.Desktop.Editing;
+using ArcGIS.Desktop.Framework.Threading.Tasks;
+using ArcGIS.Desktop.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ArcGIS.Desktop.Editing;
-using ArcGIS.Desktop.Mapping;
-using ArcGIS.Core.Geometry;
-using ArcGIS.Desktop.Framework.Threading.Tasks;
+using System.Windows;
 
 namespace AnnoTools
 {
@@ -91,104 +97,133 @@ namespace AnnoTools
     {
       if (CurrentTemplate == null || geometry == null)
         return false;
+			(bool ok, Exception ex) result = await QueuedTask.Run<(bool ok, Exception ex)>(() =>
+			{
+				try
+				{
+					// get the annotation layer
+					if (CurrentTemplate.Layer is not AnnotationLayer annoLayer)
+						return (false, new Exception ($@"Current Template: [{CurrentTemplate.Name}] is not for an Annotation Layer"));
 
-      bool result = await QueuedTask.Run(() =>
-      {
-        // get the anno layer
-        AnnotationLayer annoLayer = CurrentTemplate.Layer as AnnotationLayer;
-        if (annoLayer == null)
-          return false;
+					// get the annotation feature class
+					if (annoLayer.GetFeatureClass() is not ArcGIS.Core.Data.Mapping.AnnotationFeatureClass annotationFc)
+						return (false, new Exception($@"Can't get F/C for annotation layer: [{annoLayer.Name}]"));
 
-        // get the anno feature class
-        var fc = annoLayer.GetFeatureClass() as ArcGIS.Core.Data.Mapping.AnnotationFeatureClass;
-        if (fc == null)
-          return false;
+					// get the feature class CIM definition which contains the labels, symbols
+					var cimDefinition = annotationFc.GetDefinition() as ArcGIS.Core.Data.Mapping.AnnotationFeatureClassDefinition;
+					var labels = cimDefinition.GetLabelClassCollection();
+					var symbols = cimDefinition.GetSymbolCollection();
 
-        // get the featureclass CIM definition which contains the labels, symbols
-        var cimDefinition = fc.GetDefinition() as ArcGIS.Core.Data.Mapping.AnnotationFeatureClassDefinition;
-        var labels = cimDefinition.GetLabelClassCollection();
-        var symbols = cimDefinition.GetSymbolCollection();
+					// make sure there are labels, symbols
+					if ((labels.Count == 0) || (symbols.Count == 0))
+						return (false, new Exception($@"Can't get labels for F/C: [{annotationFc.GetName()}]"));
 
-        // make sure there are labels, symbols
-        if ((labels.Count == 0) || (symbols.Count == 0))
-          return false;
+					// find the label class required
+					//   typically you would use a subtype name or some other characteristic
+					// but here we use the first label class or match the label class name to the template name
+					var label = GetLabel(labels);
 
+					// each label has a textSymbol
+					// the symbolName *should* be the symbolID to be used
+					var symbolName = label.TextSymbol.SymbolName;
+					int symbolID = GetSymbolIDForLabel(annotationFc, symbolName, symbols);
 
-        // find the label class required
-        //   typically you would use a subtype name or some other characteristic
+					// no symbol?
+					if (symbolID == -1)
+						return (false, new Exception($@"Unable to get Symbol for: [{symbolName}]"));
 
-        // use the first label class
-        var label = labels[0];
-        if (labels.Count > 1)
-        {
-          // find a label class based on template name 
-          foreach (var LabelClass in labels)
-          {
-            if (LabelClass.Name == CurrentTemplate.Name)
-            {
-              label = LabelClass;
-              break;
-            }
-          }
-        }
+					// use the template's inspector object
+					var inspector = CurrentTemplate.Inspector;
+					// get the annotation properties
+					var annoProperties = inspector.GetAnnotationProperties();
 
-        // each label has a textSymbol
-        // the symbolName *should* be the symbolID to be used
-        var symbolName = label.TextSymbol.SymbolName;
-        int symbolID = -1;
-        if (!int.TryParse(symbolName, out symbolID))
-        {
-          // int.TryParse fails - attempt to find the symbolName in the symbol collection
-          foreach (var symbol in symbols)
-          {
-            if (symbol.Name == symbolName)
-            {
-              symbolID = symbol.ID;
-              break;
-            }
-          }
-        }
-        // no symbol?
-        if (symbolID == -1)
-          return false;
+					// AnnotationClassID, SymbolID and Shape are the bare minimum for an annotation feature
 
+					// use the inspector[fieldName] to set the annotationClassid - this is allowed since annotationClassID is a guaranteed field in the annotation schema
+					inspector["AnnotationClassID"] = label.ID;
+					// set the symbolID too
+					inspector["SymbolID"] = symbolID;
 
-        // use the template's inspector object
-        var inspector = CurrentTemplate.Inspector;
-        // get the annotation properties
-        var annoProperties = inspector.GetAnnotationProperties();
+					// use the annotation properties to set the other attributes
+					annoProperties.TextString = "My test annotation feature";
+					annoProperties.Color = ColorFactory.Instance.GreenRGB;
+					annoProperties.VerticalAlignment = ArcGIS.Core.CIM.VerticalAlignment.Top;
+					annoProperties.Underline = true;
 
-        // AnnotationClassID, SymbolID and Shape are the bare minimum for an annotation feature
+					// set the geometry to be the sketched line
+					// when creating annotation features the shape to be passed in the create operation is the CIMTextGraphic shape
+					annoProperties.Shape = geometry;
 
-        // use the inspector[fieldName] to set the annotationClassid - this is allowed since annotationClassID is a guaranteed field in the annotation schema
-        inspector["AnnotationClassID"] = label.ID;
-        // set the symbolID too
-        inspector["SymbolID"] = symbolID;
-                                              
-        // use the annotation properties to set the other attributes
-        annoProperties.TextString = "My annotation feature";
-        annoProperties.Color = ColorFactory.Instance.GreenRGB;
-        annoProperties.VerticalAlignment = ArcGIS.Core.CIM.VerticalAlignment.Top;
-        annoProperties.Underline = true;
+					// set the annotation properties back on the inspector
+					inspector.SetAnnotationProperties(annoProperties);
 
-        // set the geometry to be the sketched line
-        // when creating annotation features the shape to be passed in the create operation is the CIMTextGraphic shape
-        annoProperties.Shape = geometry;
+					// Create an edit operation
+					var createOperation = new EditOperation
+					{
+						Name = $"Create {CurrentTemplate.Layer.Name}",
+						SelectNewFeatures = true
+					};
 
-        // set the annotation properties back on the inspector
-        inspector.SetAnnotationProperties(annoProperties);
-
-        // Create an edit operation
-        var createOperation = new EditOperation();
-        createOperation.Name = string.Format("Create {0}", CurrentTemplate.Layer.Name);
-        createOperation.SelectNewFeatures = true;
-
-        // create and execute using the inspector
-        createOperation.Create(CurrentTemplate.Layer, inspector);
-        return createOperation.Execute();
-      });
-
-      return result;
+					// create and execute using the inspector
+					var rowToken = createOperation.Create(CurrentTemplate.Layer, inspector);
+					// rowToken content is populated after .Execute is called
+					var result = createOperation.Execute();
+					if (result)
+					{
+						return (true, null);
+					}
+					return (false, new Exception ($@"Create operation failed: {createOperation.ErrorMessage}"));
+				}
+				catch (Exception ex)
+				{
+					return (false, ex);
+				}
+			});
+			if (!result.ok)
+				MessageBox.Show (result.ex.ToString ());
+			return result.ok;
     }
-  }
+
+		private CIMLabelClass GetLabel(IReadOnlyList<CIMLabelClass> labels)
+		{
+			// find the label class required
+			//   typically you would use a subtype name or some other characteristic
+
+			// use the first label class
+			var label = labels[0];
+			if (labels.Count > 1)
+			{
+				// find a label class based on template name 
+				foreach (var labelClass in labels)
+				{
+					if (labelClass.Name == CurrentTemplate.Name)
+					{
+						label = labelClass;
+						break;
+					}
+				}
+			}
+			return label;
+		}
+
+		private int GetSymbolIDForLabel(AnnotationFeatureClass fcAnno,
+			string symbolName,
+			IReadOnlyList<CIMSymbolIdentifier> symbols)
+		{
+			int symbolID = -1;
+			if (!int.TryParse(symbolName, out symbolID))
+			{
+				// int.TryParse fails - attempt to find the symbolName in the symbol collection
+				foreach (var symbol in symbols)
+				{
+					if (symbol.Name == symbolName)
+					{
+						symbolID = symbol.ID;
+						break;
+					}
+				}
+			}
+			return symbolID;
+		}
+	}
 }

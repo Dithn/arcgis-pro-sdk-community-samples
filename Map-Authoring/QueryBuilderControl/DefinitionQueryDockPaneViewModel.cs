@@ -16,18 +16,20 @@
    limitations under the License.
 
 */
+using ArcGIS.Core.CIM;
+using ArcGIS.Desktop.Framework;
+using ArcGIS.Desktop.Framework.Contracts;
+using ArcGIS.Desktop.Framework.Threading.Tasks;
+using ArcGIS.Desktop.Mapping;
+using ArcGIS.Desktop.Mapping.Controls;
+using ArcGIS.Desktop.Mapping.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using ArcGIS.Desktop.Framework;
-using ArcGIS.Desktop.Framework.Contracts;
-using ArcGIS.Desktop.Mapping.Controls;
-using ArcGIS.Desktop.Mapping;
-using ArcGIS.Core.CIM;
-using ArcGIS.Desktop.Mapping.Events;
-using ArcGIS.Desktop.Framework.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace QueryBuilderControl
@@ -37,10 +39,10 @@ namespace QueryBuilderControl
   {
     private const string _dockPaneID = "QueryBuilderControl_DefinitionQueryDockPane";
 
-
-    private string _origExpression;
-
-    protected DefinitionQueryDockPaneViewModel() { }
+    public static DefinitionQueryDockPaneViewModel Current = null;
+    protected DefinitionQueryDockPaneViewModel() {
+    
+    }
 
     /// <summary>
     /// Show the DockPane.
@@ -56,7 +58,6 @@ namespace QueryBuilderControl
       var vm = pane as DefinitionQueryDockPaneViewModel;
       if (vm != null && MapView.Active != null)
       {
-        vm.ClearControlProperties();
         vm.BuildControlProperties(MapView.Active);
       }
     }
@@ -77,6 +78,7 @@ namespace QueryBuilderControl
 
           // connect to events
           ArcGIS.Desktop.Mapping.Events.TOCSelectionChangedEvent.Subscribe(OnSelectedLayersChanged);
+          MapMemberPropertiesChangedEvent.Subscribe(OnMapMemberPropertiesChanged);
           ArcGIS.Desktop.Core.Events.ProjectClosingEvent.Subscribe(OnProjectClosing);
         }
       }
@@ -88,6 +90,7 @@ namespace QueryBuilderControl
 
           // unsubscribe from events
           ArcGIS.Desktop.Mapping.Events.TOCSelectionChangedEvent.Unsubscribe(OnSelectedLayersChanged);
+          MapMemberPropertiesChangedEvent.Unsubscribe(OnMapMemberPropertiesChanged);
           ArcGIS.Desktop.Core.Events.ProjectClosingEvent.Unsubscribe(OnProjectClosing);
         }
       }
@@ -99,22 +102,15 @@ namespace QueryBuilderControl
     /// <summary>
     /// Gets and sets the QueryBuilderControlProperties to bind to the QueryBuilderControl.
     /// </summary>
-    private QueryBuilderControlProperties _props = null;
-    public QueryBuilderControlProperties ControlProperties
+    private DefinitionQueryBuilderControlProperties _props = null;
+    public DefinitionQueryBuilderControlProperties ConfigureControl
     {
       get { return _props; }
-      set { SetProperty(ref _props, value); }
+      set { 
+        SetProperty(ref _props, value); 
+      }
     }
 
-    /// <summary>
-    /// Gets and sets the query expression in the QueryBuilderControl.
-    /// </summary>
-    private string _expression = string.Empty;
-    public string Expression
-    {
-      get { return _expression; }
-      set { _expression = value; }     // doesn't bind in xaml so no need to worry about NotifyPropertyChanged
-    }
 
     /// <summary>
     /// Gets and sets the name of currently selected mapMember.
@@ -125,7 +121,12 @@ namespace QueryBuilderControl
       get { return _mapMemberName; }
       set { SetProperty(ref _mapMemberName, value); }
     }
-
+    private MapMember _mapMember;
+    public MapMember MapMember
+    {
+      get { return _mapMember; }
+      set { SetProperty(ref _mapMember, value); }
+    }
     /// <summary>
     /// Gets the Apply command to write query definition to mapMember.
     /// </summary>
@@ -135,8 +136,9 @@ namespace QueryBuilderControl
       get
       {
         if (_applyCommand == null)
-          _applyCommand = new RelayCommand(() => SaveChanges(), CanSaveChanges);
-
+        {
+          _applyCommand = new RelayCommand(() => ApplyChanges());
+        }
         return _applyCommand;
       }
     }
@@ -156,12 +158,6 @@ namespace QueryBuilderControl
       if (args.Cancel)
         return Task.CompletedTask;
 
-      // save current changes
-      SaveChanges();
-
-      // reset the control
-      ClearControlProperties();
-
       return Task.CompletedTask;
     }
 
@@ -171,11 +167,20 @@ namespace QueryBuilderControl
     /// <param name="args">The event arguments.</param>
     private void OnSelectedLayersChanged(MapViewEventArgs args)
     {
-      // save current changes
-      SaveChanges();
-
       // set up for the next selected mapMember
       BuildControlProperties(args.MapView);
+    }
+
+    private void OnMapMemberPropertiesChanged(MapMemberPropertiesChangedEventArgs args)
+    {
+      //get all the mapMembers that have changed
+      List<MapMember> changedMapMembers = args.MapMembers.ToList();
+      //check if the list of mapMembers changed name is the same as the MapMemberName property
+      var changedMapMember = changedMapMembers.FirstOrDefault(m => m.Name == MapMemberName);
+      if (changedMapMember == null)
+        return;
+      //Populate the definition query control if the mapMember is the same
+      BuildControlProperties(changedMapMember);
     }
     #endregion
 
@@ -209,81 +214,82 @@ namespace QueryBuilderControl
     /// initialization.
     /// </summary>
     /// <param name="mapMember">MapMember to initialize the QueryBuilderControlProperties. </param>
-    private void BuildControlProperties(MapMember mapMember)
+    private  void BuildControlProperties(MapMember mapMember)
     {
-      // find the current definition query for the mapMember
-      string expression = "";
-      BasicFeatureLayer fLayer = mapMember as BasicFeatureLayer;
-      StandaloneTable table = mapMember as StandaloneTable;
-      if (fLayer != null)
-        expression = fLayer.DefinitionQuery;
-      else if (table != null)
-        expression = table.DefinitionQuery;
-
-      // create it
-      var props = new QueryBuilderControlProperties()
+      try
       {
-        MapMember = mapMember,
-        Expression = expression,
-      };
-      // set the binding properties
-      this.ControlProperties = props;
-      MapMemberName = mapMember?.Name ?? "";
+        DefinitionQuery activeDefinitionQuery = null;
+        BasicFeatureLayer fLayer = mapMember as BasicFeatureLayer;
+        StandaloneTable table = mapMember as StandaloneTable;
+        List<DefinitionQuery> definitionQueries = null;
+        if (fLayer != null)
+        {
+          definitionQueries = fLayer.DefinitionQueries.ToList();
+          activeDefinitionQuery = fLayer.ActiveDefinitionQuery;
+        }
+        else if (table != null)
+        {
+          definitionQueries = table.DefinitionQueries.ToList();
+          activeDefinitionQuery = table.ActiveDefinitionQuery;
+        }
 
-      // keep track of the original expression
-      _origExpression = expression;
+        // create it
+        var props = new DefinitionQueryBuilderControlProperties()
+        {
+          MapMember = mapMember,
+          DefinitionQueries = definitionQueries,
+          ActiveDefinitionQuery = activeDefinitionQuery
+        };
+        //remove any existing definition queries from the control
+        //var userControl = DefinitionQueryDockPaneView.Current;
+        //userControl.DefinitionQueryBuilderControl.RemoveAllDefinitionQueries();
+
+        // set the binding properties
+        // ConfigureControl = null;
+        if (this.ConfigureControl != null && ConfigureControl.DefinitionQueries != null)
+          this.ConfigureControl.DefinitionQueries.Clear();
+        this.ConfigureControl = props;
+        MapMemberName = mapMember?.Name ?? "";
+        MapMember = mapMember;
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show("Exception in BuildControlProperties: " + ex.Message, "DefinitionQueryDockPaneViewModel");
+        //throw;
+      }
     }
 
-    /// <summary>
-    /// Use a null mapMember to reset the QueryBuilderControlProperties.
-    /// </summary>
-    private void ClearControlProperties()
-    {
-      // reset the control
-      MapMember mapMember = null;
-      BuildControlProperties(mapMember);
-    }
-
-    /// <summary>
-    /// Has the current expression been altered?  
-    /// </summary>
-    /// <returns>true if the current expression has been altered. False otherwise.</returns>
-    private bool CanSaveChanges()
-    {
-      string newExpression = Expression ?? "";
-
-      return (string.Compare(_origExpression, newExpression) != 0);
-    }
 
     /// <summary>
     /// Saves the current expression to the appropriate mapMember according to user response. 
     /// </summary>
-    private void SaveChanges()
+    private async void ApplyChanges()
     {
-      // get the new expression
-      string newExpression = Expression ?? "";
+      //access the usercontrol to get the properties
+      var userControl = DefinitionQueryDockPaneView.Current; 
+      var myControlsQueries = userControl.DefinitionQueryBuilderControl.DefinitionQueries;
+      string myControlsActiveQuery = null;
+      if (userControl.DefinitionQueryBuilderControl.ActiveDefinitionQuery != null)
+        myControlsActiveQuery = userControl.DefinitionQueryBuilderControl.ActiveDefinitionQuery.Name;
 
-      // is it different?
-      if (string.Compare(_origExpression, newExpression) != 0)
-      {
-        if (ArcGIS.Desktop.Framework.Dialogs.MessageBox.Show("Expression has changed. Do you wish to save it?", "Definition Query", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question) == System.Windows.MessageBoxResult.Yes)
+      var fLayer = ConfigureControl.MapMember as BasicFeatureLayer;
+      var table = ConfigureControl.MapMember as StandaloneTable;
+      await QueuedTask.Run( () => {
+
+        if (fLayer != null)
         {
-          // update internal var
-          _origExpression = newExpression;
-
-          var fLayer = ControlProperties.MapMember as BasicFeatureLayer;
-          var table = ControlProperties.MapMember as StandaloneTable;
-
-          // update mapMember definition query
-          QueuedTask.Run(() =>
-          {
-            if (fLayer != null)
-              fLayer.SetDefinitionQuery(newExpression);
-            else if (table != null)
-              table.SetDefinitionQuery(newExpression);
-          });
+          fLayer.RemoveAllDefinitionQueries();
+          fLayer.InsertDefinitionQueries(myControlsQueries);
+          fLayer.SetActiveDefinitionQuery(myControlsActiveQuery);
         }
-      }
+
+        else if (table != null)
+        {
+          table.RemoveAllDefinitionQueries();
+          table.InsertDefinitionQueries(myControlsQueries);
+          table.SetActiveDefinitionQuery(myControlsActiveQuery);
+        }
+      });
     }
   }
 

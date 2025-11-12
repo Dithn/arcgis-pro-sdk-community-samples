@@ -54,13 +54,13 @@ namespace WorkflowManagerSampleAddIn
                         Q = "closed=0"
                     });
                     var title = "Job Statistics";
-                    var msg = $"\nJob Statistics after searching are modeled as: {jobStats}\n\n For Example, jobStats.Total = {jobStats.Total}";
+                    var msg = $"Job Statistics after searching are modeled as: {jobStats}\n\n For Example, jobStats.Total = {jobStats.Total}";
                     MessageBox.Show(msg, title);
                 }
                 catch (Exception ex)
                 {
                     var title = "Failed to get the job statistics information";
-                    var msg = $"\nError: {ex.Message}";
+                    var msg = $"Error: {ex.Message}";
                     MessageBox.Show(msg, title);
                 }
             });

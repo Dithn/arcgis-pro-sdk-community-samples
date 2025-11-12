@@ -1,4 +1,4 @@
-/*
+﻿/*
 
    Copyright 2025 Esri
 
@@ -16,6 +16,12 @@
    limitations under the License.
 
 */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using ArcGIS.Core.CIM;
 using ArcGIS.Core.Data;
 using ArcGIS.Core.Geometry;
@@ -27,15 +33,10 @@ using ArcGIS.Desktop.Framework;
 using ArcGIS.Desktop.Framework.Contracts;
 using ArcGIS.Desktop.Framework.Dialogs;
 using ArcGIS.Desktop.Framework.Threading.Tasks;
+using ArcGIS.Desktop.KnowledgeGraph;
 using ArcGIS.Desktop.Layouts;
 using ArcGIS.Desktop.Mapping;
 using ArcGIS.Desktop.Workflow.Client.Steps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace WorkflowManagerSampleAddIn
 {
@@ -69,6 +70,7 @@ namespace WorkflowManagerSampleAddIn
 
         /// <summary>
         /// The jobId of the first job found in a search. This job will be used in various examples.
+        /// Click the "Search Jobs" button to populate the property.
         /// </summary>
         internal string JobIdFromSearch { get; set; }
 
@@ -104,7 +106,7 @@ namespace WorkflowManagerSampleAddIn
                 }
                 catch (Exception e)
                 {
-                    ArcGIS.Desktop.Framework.Dialogs.MessageBox.Show($"ERROR: {e}", "Error running command");
+                    MessageBox.Show($"ERROR: {e}", "Error running command");
                 }
             });
         }
@@ -128,8 +130,8 @@ namespace WorkflowManagerSampleAddIn
                 {
                     // Get the jobId property from the OpenProProjectItemsStep arguments and store it.
                     OpenProProjectItemsStepCommandArgs stepArgs = (OpenProProjectItemsStepCommandArgs)args[0];
-								    JobIdFromOpenProProjectStep = stepArgs.JobId;
-                    // ArcGIS.Desktop.Framework.Dialogs.MessageBox.Show($"Got job id from ProMappingStep args: {JobId_OpenProProjectStep}", "Project Info");
+                    JobIdFromOpenProProjectStep = stepArgs.JobId;
+                    // MessageBox.Show($"Got job id from ProMappingStep args: {JobId_OpenProProjectStep}", "Project Info");
 
                     // Run the command specified by the id
                     IPlugInWrapper wrapper = FrameworkApplication.GetPlugInWrapper(id);
@@ -139,7 +141,7 @@ namespace WorkflowManagerSampleAddIn
                 }
                 catch (System.Exception e)
                 {
-                    // ArcGIS.Desktop.Framework.Dialogs.MessageBox.Show($"ERROR: {e}", "Error running command");
+                    // MessageBox.Show($"ERROR: {e}", "Error running command");
                 }
             });
         }

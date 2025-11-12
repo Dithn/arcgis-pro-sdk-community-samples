@@ -14,6 +14,27 @@
     <None Remove="Images\CaliforniaEmblem.png" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ArcGIS.Desktop.Bars.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Bars.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Charts">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\Extensions\Charts\ArcGIS.Desktop.Charts.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Charts.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Charts.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.DataGrid.Contrib.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.DataGrid.Contrib.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Docking.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Docking.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Editors.Interop.DataGrid.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Editors.Interop.DataGrid.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Editors.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Editors.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="ArcGIS.Desktop.Framework">
       <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Framework.dll</HintPath>
       <Private>False</Private>
@@ -28,6 +49,9 @@
       <HintPath>C:\Program Files\ArcGIS\Pro\bin\Extensions\Core\ArcGIS.Desktop.Core.dll</HintPath>
       <Private>False</Private>
       <CopyLocal>False</CopyLocal>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Grids.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Grids.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="ArcGIS.Desktop.Mapping">
       <HintPath>C:\Program Files\ArcGIS\Pro\bin\Extensions\Mapping\ArcGIS.Desktop.Mapping.dll</HintPath>
@@ -54,10 +78,34 @@
       <Private>False</Private>
       <CopyLocal>False</CopyLocal>
     </Reference>
+    <Reference Include="ArcGIS.Desktop.Navigation.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Navigation.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Resources">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Ribbon.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Ribbon.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="ArcGIS.Desktop.Shared.Wpf.dll">
       <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Shared.Wpf.dll</HintPath>
       <Private>False</Private>
       <CopyLocal>False</CopyLocal>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Shell.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Shell.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.SyntaxEditor.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.SyntaxEditor.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Text.LLParser.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Text.LLParser.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Text.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Text.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ArcGIS.Desktop.Views.Wpf">
+      <HintPath>C:\Program Files\ArcGIS\Pro\bin\ArcGIS.Desktop.Views.Wpf.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

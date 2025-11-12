@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+//Copyright 2025 Esri
+
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+
+//       https://www.apache.org/licenses/LICENSE-2.0
+
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific .cs governing permissions and
+//   limitations under the License.
+-->
+<ArcGIS defaultAssembly="FeatureLyrToWebLayer.dll" defaultNamespace="FeatureLyrToWebLayer" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{32d7f817-1dfe-44c3-9c8b-6ffc8263159e}" version="1.0" 
+						 desktopVersion="3.4.0">
+    <Name>FeatureLyrToWebLayer</Name>
+    <Description>Calls a Python script from .Net application, in order to share a feature layer as a web layer.</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>ArcGIS Pro SDK Team, arcgisprosdk@esri.com</Author>
+    <Company>esri, https://www.esri.com</Company>
+    <Date>6/29/2015 2:04:46 PM, 2015</Date>
+    <Subject>Sharing</Subject>
+  </AddInInfo>
+  <modules>
+    <insertModule id="FeatureLyrToWebLayer_Module" className="FeatureLyrToWebLayerModule" autoLoad="false" 
+                  caption="Feature Lyr To WebLayer">
+      <tabs>
+        <tab id="FeatureLyrToWebLayer_Tab1" caption="Custom Publishing" keytip="T0">
+          <group refID="FeatureLyrToWebLayer_Group1"/>
+        </tab>
+      </tabs>
+      <groups>
+        <!-- comment this out if you have no controls on the Addin tab to avoid an empty group-->
+        <group id="FeatureLyrToWebLayer_Group1" caption="Python Scripts" 
+							 appearsOnAddInTab="false" keytip="Z0">
+          <!-- host controls within groups -->
+          <button refID="FeatureLyrToWebLayer_RunPythonScript_ShowButton" size="large" />
+				</group>
+      </groups>
+      <controls>
+        <button id="FeatureLyrToWebLayer_RunPythonScript_ShowButton" 
+								caption="Publish as Web Layer" keytip="Z2"
+								className="RunPyScriptButton" loadOnClick="true" 
+								smallImage="FeatureWebLayer16" 
+								largeImage="FeatureWebLayer32">
+          <tooltip heading="Publish as Web Layer">
+            Publish the currently selected feature layer as Web Layer<disabledText /></tooltip>
+        </button>
+      </controls>
+    </insertModule>
+  </modules>
+</ArcGIS>

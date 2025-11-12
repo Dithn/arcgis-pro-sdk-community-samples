@@ -111,7 +111,7 @@ namespace CopyLayer
             copyOperation.Create(newLyr, geom, newAttributes);
           }
         }
-        // execute the operation onoy if changes where made
+        // execute the operation only if changes where made
         if (!copyOperation.IsEmpty
             && !copyOperation.Execute())
         {

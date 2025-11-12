@@ -29,78 +29,78 @@ using System.Windows.Data;
 using System.Windows.Threading;
 using ArcGIS.Core.Geometry;
 using ArcGIS.Desktop.Framework;
+using ArcGIS.Desktop.Framework.Contracts;
 using ArcGIS.Desktop.Mapping;
 using ArcGIS.Desktop.Mapping.Controls;
 
-namespace CoordinateSystemAddin.UI {
-    
-    internal class CoordSysViewModel : INotifyPropertyChanged {
-        private bool _showVCS = false;
-        private SpatialReference _sr;
-        private CoordinateSystemsControlProperties _props = null;
+namespace CoordinateSystemAddin.UI
+{
 
-        public CoordSysViewModel() {
-            UpdateCoordinateControlProperties();
-        }
+  internal class CoordSysViewModel : PropertyChangedBase
+  {
+    private bool _showVCS = false;
+    private SpatialReference _sr;
+    private CoordinateSystemsControlProperties _props = null;
 
-        public string SelectedCoordinateSystemName => _sr != null ? _sr.Name : "";
+    private bool _isVCSAvailable = false;
 
-        public SpatialReference SelectedSpatialReference
-        {
-            get
-            {
-                return _sr;
-            }
-            set
-            {
-                _sr = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool ShowVCS
-        {
-            get
-            {
-                return _showVCS;
-            }
-            set
-            {
-                if (_showVCS != value) {
-                    _showVCS = value;
-                    UpdateCoordinateControlProperties();
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public CoordinateSystemsControlProperties ControlProperties
-        {
-            get
-            {
-                return _props;
-            }
-            set
-            {
-                _props = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private void UpdateCoordinateControlProperties() {
-            var map = MapView.Active?.Map;
-            var props = new CoordinateSystemsControlProperties() {
-                Map = map,
-                SpatialReference = this._sr,
-                ShowVerticalCoordinateSystems = this.ShowVCS
-            };
-            this.ControlProperties = props;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate {};
-
-        private void NotifyPropertyChanged([CallerMemberName] string propName = "") {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
+    public CoordSysViewModel()
+    {
+      UpdateCoordinateControlProperties();
     }
+
+    public string SelectedCoordinateSystemName => _sr != null ? _sr.Name : "";
+
+    public SpatialReference SelectedSpatialReference
+    {
+      get => _sr;
+      set
+      {
+        SetProperty(ref _sr, value);
+        IsVCSAvailable = _sr != null; 
+        if (!IsVCSAvailable)
+          ShowVCS = false; // set ShowVCS to false if VCS is not available
+        // Add this condition to make sure the selected SpatialReference supports a vertical Coordinate system && _sr.HasVcs;
+      }
+    }
+
+    public bool IsVCSAvailable
+    {
+      get => _isVCSAvailable;
+      set
+      {
+        SetProperty(ref _isVCSAvailable, value);
+        UpdateCoordinateControlProperties();
+      }
+    }
+
+    public bool ShowVCS
+    {
+      get => _showVCS;
+      set 
+      {
+        SetProperty(ref _showVCS, value);
+        UpdateCoordinateControlProperties();
+      }
+    }
+
+    public CoordinateSystemsControlProperties ControlProperties
+    {
+      get => _props;
+      set => SetProperty(ref _props, value);
+    }
+
+    private void UpdateCoordinateControlProperties()
+    {
+      var map = MapView.Active?.Map;
+      var props = new CoordinateSystemsControlProperties()
+      {
+        Map = map,
+        SpatialReference = this._sr,
+        ShowVerticalCoordinateSystems = this.ShowVCS
+      };
+      this.ControlProperties = props;
+    }
+
+  }
 }

@@ -105,7 +105,6 @@
     <Content Include="DarkImages\AddInDesktop32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Screenshots\Screen1.png" />
     <None Include="ReadMe.md" />
     <None Include="WebViewBrowser (C#).md" />

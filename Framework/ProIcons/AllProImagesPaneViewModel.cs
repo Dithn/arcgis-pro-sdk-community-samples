@@ -72,6 +72,16 @@ namespace ProIcons
           {
             sbResult.AppendLine($@"BitmapImage failed: {ex.Message}");
           }
+          var pngDarkPath = new Uri($@"pack://application:,,,/ArcGIS.Desktop.Resources;component/DarkImages/{key}.png");
+          try
+          {
+            var bmp = new System.Windows.Media.Imaging.BitmapImage(pngDarkPath);
+            //sbResult.AppendLine($@"BitmapImage worked w/h: {bmp.Width}/{bmp.Height} ");
+          }
+          catch (Exception ex)
+          {
+            sbResult.AppendLine($@"DarkImages BitmapImage failed: {ex.Message}");
+          }
         }
       }
       MissingPngs = sbResult.ToString();

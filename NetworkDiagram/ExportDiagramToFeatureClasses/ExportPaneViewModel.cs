@@ -1597,7 +1597,7 @@ namespace ExportDiagramToFeatureClasses
 
         if (_createMap)
         {
-          ReorderGroupLayer(Reference: subTypeLayer, GroupToReorder: _activeGroupLayer);
+          ReorderGroupLayerUsingCompositeLyr(Reference: subTypeLayer, GroupToReorder: _activeGroupLayer);
         }
 
         _activeSubTypeGroupLayer = null;
@@ -2057,7 +2057,7 @@ namespace ExportDiagramToFeatureClasses
     /// </summary>
     /// <param name="Reference">Original diagram layer</param>
     /// <param name="GroupToReorder">Group to Reorder</param>
-    private static void ReorderGroupLayer(CompositeLayer Reference, ILayerContainerEdit GroupToReorder)
+    private static void ReorderGroupLayerUsingCompositeLyr(CompositeLayer Reference, ILayerContainerEdit GroupToReorder)
     {
       bool associationHasMoved = false;
       for (int i = 0; i < Reference.Layers.Count; i++)

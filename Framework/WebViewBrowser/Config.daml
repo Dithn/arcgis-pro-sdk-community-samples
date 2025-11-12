@@ -58,7 +58,9 @@
 				</button>
 			</controls>
 			<panes>
-				<pane id="WebViewBrowser_WebViewBrowser" caption="TestWebview 2" className="WebViewBrowserViewModel" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonGreen16.png" defaultTab="esri_mapping_homeTab" defaultTool="esri_mapping_navigateTool">
+				<pane id="WebViewBrowser_WebViewBrowser" caption="TestWebview 2" className="WebViewBrowserViewModel" 
+              smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonGreen16.png" 
+              defaultTab="esri_mapping_homeTab" defaultTool="esri_mapping_navigateTool">
 					<content className="WebViewBrowserView" />
 				</pane>
 			</panes>

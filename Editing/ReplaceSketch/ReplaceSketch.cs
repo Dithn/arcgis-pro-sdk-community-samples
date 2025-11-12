@@ -12,11 +12,12 @@
 //   limitations under the License. 
 
 using System.Linq;
-
+using ArcGIS.Core.Data;
 using ArcGIS.Core.Geometry;
 using ArcGIS.Desktop.Editing.Attributes;
 using ArcGIS.Desktop.Framework;
 using ArcGIS.Desktop.Framework.Contracts;
+using ArcGIS.Desktop.Framework.Dialogs;
 using ArcGIS.Desktop.Framework.Threading.Tasks;
 using ArcGIS.Desktop.Mapping;
 
@@ -24,38 +25,56 @@ namespace ReplaceSketch
 {
   internal class ReplaceSketch : Button
   {
-    protected override void OnClick()
+    protected override async void OnClick()
     {
-      //get the screen location of the right click
-      var cmdc = (System.Windows.Point)FrameworkApplication.ContextMenuDataContext;
+      try
+      {
+        //get the screen location of the right click
+        var cmdc = (System.Windows.Point)FrameworkApplication.ContextMenuDataContext;
 
-      QueuedTask.Run(async() =>
-        {
-          var mapPoint = MapView.Active.ScreenToMap(cmdc);
-          
-          //create search polygon at 5 pixels
-          var searchPoly = CreateSearchPolygon(mapPoint, 5);
-
-          //find features under the search geometry
-          var searchFeatures = MapView.Active.GetFeatures(searchPoly);
-
-          //get the sketch geometry
-          var sketchGeom = await MapView.Active.GetCurrentSketchAsync();
-
-          //loop through underlying features for the first one that matches sketch geometry type
-          foreach (var layer in searchFeatures.ToDictionary().Keys)
+        await QueuedTask.Run(async () =>
           {
-            //load the first feature into the inspector
-            var insp = new Inspector();
-            insp.Load(layer, searchFeatures[layer].First());
+            var mapPoint = MapView.Active.ScreenToMap(cmdc);
+            //create search polygon at 25 pixels
+            var searchPoly = CreateSearchPolygon(mapPoint, 25);
 
-            if (sketchGeom.GeometryType == insp.Shape.GeometryType)
+            var mapView = MapView.Active;
+            var featureLayers = mapView?.Map?.GetLayersAsFlattenedList().OfType<FeatureLayer>();
+            if (featureLayers == null || !featureLayers.Any())
+              return;
+            //get the sketch geometry
+            var sketchGeom = await MapView.Active.GetCurrentSketchAsync();
+
+            // Find all feature layers with the same geometry type as the sketch
+            var matchingFeatureLayers = featureLayers
+              .Where(fl => fl.GetFeatureClass().GetDefinition().GetShapeType() == sketchGeom.GeometryType)
+              .ToList();
+
+            // Example: do something with the matching layers
+            foreach (var layer in matchingFeatureLayers)
             {
-              await MapView.Active.SetCurrentSketchAsync(insp.Shape);
-              break;
+              // perform a spatial query for each layer using the searchPoly
+              var spatialQuery = new SpatialQueryFilter
+              {
+                FilterGeometry = searchPoly,
+                SpatialRelationship = SpatialRelationship.Intersects
+              };
+              using var featureCursor = layer.GetFeatureClass().Search(spatialQuery, false);
+              while (featureCursor.MoveNext())
+              {
+                using var feature = featureCursor.Current as Feature;
+                // Your logic here, e.g., select, highlight, etc.
+                if (feature == null) continue;
+                await MapView.Active.SetCurrentSketchAsync(feature.GetShape());
+                break;
+              }
             }
-          }
-        });
+          });
+      }
+      catch (System.Exception ex)
+      {
+        MessageBox.Show(ex.Message, "Replace Sketch Error");
+      }
     }
 
     /// <summary>

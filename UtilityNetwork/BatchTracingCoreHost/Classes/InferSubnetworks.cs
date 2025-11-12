@@ -230,13 +230,13 @@ namespace BatchTracingCoreHost.Classes
             while (featureCursor.MoveNext())
             {
                 using var currentRow = featureCursor.Current;
-                var startingElement = utilityNetwork.CreateElement(currentRow);
-                (int assetGroup, int assetType) key = new (startingElement.AssetGroup.Code, startingElement.AssetType.Code);
+                var baseElement = utilityNetwork.CreateElement(currentRow);
+                (int assetGroup, int assetType) key = new (baseElement.AssetGroup.Code, baseElement.AssetType.Code);
 
                 var startingTerminals = controllersAndTerminals[key];
                 foreach (var terminal in startingTerminals)
                 {
-                    startingElement.Terminal = terminal;
+                    var startingElement = utilityNetwork.CreateElement(currentRow, terminal);
                     startingElements[new (startingElement.ObjectID, terminal.ID)] = startingElement;
                 }
             }
@@ -289,7 +289,7 @@ namespace BatchTracingCoreHost.Classes
             if (tierDefinition == TierDefinition.Hierarchical)
             {
                 // For a hierarchical domain network, we only treat controllers in the current tier as barriers
-                foreach(var validController in validControllers)
+                foreach (var validController in validControllers)
                 {
                     foreach(var assetType in validController.Value)
                     {
@@ -324,7 +324,7 @@ namespace BatchTracingCoreHost.Classes
                 resultTypes.Add(ResultType.AggregatedGeometry);
             if (newConfiguration.Functions != null)
                 resultTypes.Add(ResultType.FunctionValue);
-
+            
             Condition subnetworkLineConditions = null;
             var outputAssetTypes = new List<AssetType>(subnetworkControllerAssetTypes);
             if (subnetworkLineAssetTypes != null &&
@@ -364,7 +364,7 @@ namespace BatchTracingCoreHost.Classes
                     : new Or((ConditionalExpression)subnetworkLineConditions, (ConditionalExpression)barrierConditions);
             else
                 newConfiguration.OutputAssetTypes = outputAssetTypes;
-
+            
             #endregion
 
             #region Perform the analysis
@@ -470,7 +470,7 @@ namespace BatchTracingCoreHost.Classes
                                     ignoredTerminals.Add(featureElement);
                                     continue;
                                 }
-                                
+
                                 discoveredFeatures.Add(objectIdAndTerminal);
                                 theseControllers.Add(featureElement);
                             }

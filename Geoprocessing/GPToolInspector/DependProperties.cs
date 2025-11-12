@@ -17,7 +17,6 @@
 
 */
 using ArcGIS.Desktop.Framework.Controls;
-using Microsoft.Web.WebView2.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +46,7 @@ namespace GPToolInspector
     private static async void BindableSourcePropertyChanged(DependencyObject d, 
       DependencyPropertyChangedEventArgs e)
     {
-      WebView2 wv = d as WebView2;
+      WebViewBrowser wv = d as WebViewBrowser;
       await wv.EnsureCoreWebView2Async();
       if (wv != null)
       {

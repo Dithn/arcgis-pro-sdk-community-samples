@@ -57,7 +57,8 @@ namespace WorkflowManagerSampleAddIn
                     var title = "Running Current Step(s) on a Job";
                     var msg = $"\nJobId: {jobId}";
                     MessageBox.Show(msg, title);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     var title = "Failed Running Current Step(s) on a Job";
                     var msg = $"\nJobId: {jobId}\nError: {ex.Message}";

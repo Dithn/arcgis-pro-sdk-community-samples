@@ -1,4 +1,4 @@
-## LocateNonspatialObject
+## LocateNonSpatialObject
 
 <!-- TODO: Write a brief abstract explaining this sample -->
 This example demonstrates how to obtain spatial ancestors or containers for a non-spatial object in a Utility Network.  
@@ -13,8 +13,8 @@ Language:              C#
 Subject:               Framework
 Contributor:           ArcGIS Pro SDK Team <arcgisprosdk@esri.com>
 Organization:          Esri, https://www.esri.com
-Date:                  05/06/2025
-ArcGIS Pro:            3.5
+Date:                  11/01/2025
+ArcGIS Pro:            3.6
 Visual Studio:         2022
 .NET Target Framework: net8.0-windows
 ```

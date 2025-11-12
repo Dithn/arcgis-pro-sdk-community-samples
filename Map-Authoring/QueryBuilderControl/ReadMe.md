@@ -2,7 +2,7 @@
 
 <!-- TODO: Write a brief abstract explaining this sample -->
 This sample provides an illustration of how to use the QueryBuilderControl.  This add-in contains a dockPane which hosts the QueryBuilderControl.    
-The dockPane is used to view and modify the definition query for feature layers and standalone tables.  Use the Expression property to determine the  current and complete SQL expression.   
+The dockPane is used to view and modify the definition query for feature layers and standalone tables.  You can set attribute and spatial queries with this control.   
   
 
 
@@ -14,8 +14,8 @@ Language:              C#
 Subject:               Map Authoring
 Contributor:           ArcGIS Pro SDK Team <arcgisprosdk@esri.com>
 Organization:          Esri, https://www.esri.com
-Date:                  05/06/2025
-ArcGIS Pro:            3.5
+Date:                  11/01/2025
+ArcGIS Pro:            3.6
 Visual Studio:         2022
 .NET Target Framework: net8.0-windows
 ```

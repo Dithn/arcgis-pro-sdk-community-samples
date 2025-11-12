@@ -1,0 +1,46 @@
+﻿<ArcGIS defaultAssembly="ToolGetFeatures.dll" defaultNamespace="ToolGetFeatures" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{f7db71a2-e228-495d-bc53-339cc003f7ae}" version="1.0" desktopVersion="3.6.59527" product="ArcGISPro">
+    <Name>ToolGetFeatures</Name>
+    <Description>Demonstrates how to get underlying features from a map using a map tool click</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>ArcGIS Pro SDK Team, arcgisprosdk@esri.com</Author>
+    <Company>esri, https://www.esri.com</Company>
+    <Date>11/6/2025 5:01:54 AM</Date>
+    <Subject>Map Exploration</Subject>
+    <!-- Note subject can be one or more of these topics:
+                    Content, Framework, Editing, Geodatabase, Geometry, Geoprocessing, Layouts, Map Authoring, Map Exploration -->
+  </AddInInfo>
+  <modules>
+    <insertModule id="ToolGetFeatures_Module" className="Module1" autoLoad="false" caption="Module1">
+      <!-- uncomment to have the control hosted on a separate tab-->
+      <tabs>
+        <tab id="ToolGetFeatures_Tab1" caption="Get Features" keytip="T1">
+          <group refID="ToolGetFeatures_Group1"/>
+        </tab>
+      </tabs>
+      <groups>
+        <group id="ToolGetFeatures_Group1" caption="Get Feature Test" keytip="G1">
+          <!-- host controls within groups -->
+          <tool refID="ToolGetFeatures_GetFeaturesMapTool" size="large" />
+          <tool refID="ToolGetFeatures_SpatialQueryMapTool" size="large" />
+        </group>
+      </groups>
+      <controls>
+        <!-- add your controls here -->
+        <tool id="ToolGetFeatures_GetFeaturesMapTool" caption="Get Features Tool" className="GetFeaturesMapTool" 
+              loadOnClick="true" 
+              smallImage="Raster_Function_Weighted_Overlay16" 
+              largeImage="Raster_Function_Weighted_Overlay32"
+              condition="esri_mapping_mapPane" keytip="X1">
+          <tooltip heading="Get Features Tool"><disabledText />Tests a map click using a GetFeatures methods to find underlying features</tooltip>
+        </tool>
+        <tool id="ToolGetFeatures_SpatialQueryMapTool" caption="Spatial Query Tool" className="SpatialQueryMapTool" 
+              loadOnClick="true" smallImage="FilterSpatialFilled16" 
+              largeImage="FilterSpatialFilled32"
+              condition="esri_mapping_mapPane" keytip="X2">
+          <tooltip heading="Spatial Query Tool"><disabledText />Tests a map click using a Spatial Query method to find underlying features</tooltip>
+        </tool>
+      </controls>
+    </insertModule>
+  </modules>
+</ArcGIS>

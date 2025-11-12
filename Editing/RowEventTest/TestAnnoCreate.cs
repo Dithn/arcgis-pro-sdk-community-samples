@@ -76,7 +76,7 @@ namespace RowEventTest
         var annoLayers = MapView.Active.Map.GetLayersAsFlattenedList().OfType<AnnotationLayer>();
         if (!annoLayers.Any())
         {
-          return "No annoation layers found in the current map";
+          return "No annotation layers found in the current map";
         }
         // create a list to hold x random coordinates in map extent
         var coordinateList = CreateRandomCoordinateList(Module1.TestAnnoCycles);

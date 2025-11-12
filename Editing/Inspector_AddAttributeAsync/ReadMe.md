@@ -15,8 +15,8 @@ Language:              C#
 Subject:               Editing
 Contributor:           ArcGIS Pro SDK Team <arcgisprosdk@esri.com>
 Organization:          Esri, https://www.esri.com
-Date:                  05/06/2025
-ArcGIS Pro:            3.5
+Date:                  11/01/2025
+ArcGIS Pro:            3.6
 Visual Studio:         2022
 .NET Target Framework: net8.0-windows
 ```
@@ -38,18 +38,19 @@ Visual Studio:         2022
 5. Launch the debugger to open ArcGIS Pro.  
 6. ArcGIS Pro will open.  
 7. Open the "C:\Data\Interacting with Maps\Interacting with Maps" project.  
-8. Click on the Add-In tab.  
+8. Open the "Portland Crimes" map if it is not already open.  
+9. Click on the Add-In tab.  
 ![UI](Screenshots/ribbon.png)  
-9. Click on the "Apply Attrributes" button.  
-10. A dockpane will be displayed showing the fields requiring user input. In this example we have chosen 2 fields from the Police Stations layer.   
+10. Click on the "Apply Attributes" button.  
+11. A dockpane will be displayed showing the fields requiring user input. In this example we have chosen 2 fields from the Police Stations layer.   
 Each field is shown as invalid (outlined in a red box) indicating that validation of the values has occurred.  
 ![UI](Screenshots/ApplyAttributes_1.png)  
-11. Enter a value into the first field.  The value is validated. A valid value is outlined with a green box.  The user can hover over the side bar of any invalid value to see any message you wish to display.  
+12. Enter a value into the first field.  The value is validated. A valid value is outlined with a green box.  The user can hover over the side bar of any invalid value to see any message you wish to display.  
 ![UI](Screenshots/ApplyAttributes_2.png)  
-12. Enter a value into the second field.  The value is validated.    
+13. Enter a value into the second field.  The value is validated.    
 ![UI](Screenshots/ApplyAttributes_3.png)  
-13. Now draw a rectangle on the map around one of more Police Station features.   
-14. The values entered will be applied to the identified features.   
+14. Now draw a rectangle on the map around one of more Police Station features.   
+15. The values entered will be applied to the identified features.   
 ![UI](Screenshots/ApplyAttributes_Results.png)  
   
 

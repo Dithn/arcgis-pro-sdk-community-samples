@@ -55,9 +55,10 @@ namespace Inspector_AddAttributeAsync
   /// 1. Launch the debugger to open ArcGIS Pro.
   /// 1. ArcGIS Pro will open.
   /// 1. Open the "C:\Data\Interacting with Maps\Interacting with Maps" project.
+  /// 1. Open the "Portland Crimes" map if it is not already open.
   /// 1. Click on the Add-In tab.
   /// ![UI](Screenshots/ribbon.png)
-  /// 1. Click on the "Apply Attrributes" button.
+  /// 1. Click on the "Apply Attributes" button.
   /// 1. A dockpane will be displayed showing the fields requiring user input. In this example we have chosen 2 fields from the Police Stations layer. 
   /// Each field is shown as invalid (outlined in a red box) indicating that validation of the values has occurred.
   /// ![UI](Screenshots/ApplyAttributes_1.png)

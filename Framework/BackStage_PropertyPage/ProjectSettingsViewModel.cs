@@ -79,13 +79,13 @@ namespace BackStage_PropertyPage
     /// <summary>
     /// Initializes the page using the settings.
     /// </summary>
-    /// <returns>A Task that represnets the InitializeAsync method</returns>
+    /// <returns>A Task that represents the InitializeAsync method</returns>
     protected override Task InitializeAsync()
     {
       // get the settings
       Dictionary<string, string> settings = Module1.Current.Settings;
 
-      // assign to the values biniding to the controls
+      // assign to the values binding to the controls
       if (settings.ContainsKey("Setting1"))
         _moduleSetting1 = System.Convert.ToBoolean(settings["Setting1"]);
       else

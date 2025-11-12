@@ -139,11 +139,13 @@ namespace TabularDataOptions
       set => SetProperty(ref _theDataTable, value);
     }
 
-		/// <summary>
-		/// Enumerator of rows from the selected map member
-		/// WPF Demo: DataGrid bound with IEnumerable - TheRowEnumeration property bound to DataGrid's ItemsSource
-		/// </summary>
-		public IEnumerable<dynamic> TheRowEnumeration
+
+    private IEnumerable<dynamic> _theRowEnumeration;
+    /// <summary>
+    /// Enumerator of rows from the selected map member
+    /// WPF Demo: DataGrid bound with IEnumerable - TheRowEnumeration property bound to DataGrid's ItemsSource
+    /// </summary>
+    public IEnumerable<dynamic> TheRowEnumeration
     {
       get => _theRowEnumeration;
       set => SetProperty(ref _theRowEnumeration, value);
@@ -152,7 +154,7 @@ namespace TabularDataOptions
     /// <summary>
     /// The collection of columns for the DataGrid
     /// </summary>
-    public ObservableCollection<System.Windows.Controls.DataGridColumn> ColumnCollection
+    public ObservableCollection<DataGridColumn> ColumnCollection
     {
       get => _ColumnCollection;
       set => SetProperty(ref _ColumnCollection, value);
@@ -343,7 +345,6 @@ namespace TabularDataOptions
     /// Text shown near the top of the DockPane.
     /// </summary>
     private string _heading = "WPF DataGrid Sample";
-    private IEnumerable<dynamic> _theRowEnumeration;
 
     public string Heading
     {

@@ -116,6 +116,7 @@
         <HierarchicalDataTemplate DataType="{x:Type TreeHelpers:TbxItem}" 
                                   ItemsSource="{Binding Children}">
           <StackPanel Orientation="Horizontal">
+            
             <Image Width="16" Height="16" Margin="1" 
                    Source="{Binding RelativeSource={RelativeSource FindAncestor, 
                    AncestorType={x:Type UserControl}}, Path=DataContext.ToolboxFolderImgSrc}" />
@@ -124,6 +125,20 @@
         </HierarchicalDataTemplate>
         <DataTemplate DataType="{x:Type TreeHelpers:TbxItemTool}">
           <StackPanel Orientation="Horizontal">
+            <StackPanel.ContextMenu>
+              <ContextMenu>
+                <MenuItem Header="Open Tool Dialog" Command="{Binding CmdToolDialog}" >
+                  <MenuItem.Icon>
+                    <Image Source="{StaticResource GeoprocessingToolbox16}" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"/>
+                  </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Tool Inspector" Command="{Binding CmdToolInspector}"  >
+                  <MenuItem.Icon>
+                    <Image Source="{StaticResource GeoprocessingScript32}" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality"/>
+                  </MenuItem.Icon>
+                </MenuItem>
+              </ContextMenu>
+            </StackPanel.ContextMenu>
             <Image Width="16" Height="16" Margin="1" Source="{Binding ToolImgSrc}" />
             <TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
           </StackPanel>

@@ -66,8 +66,7 @@ namespace DockpaneWithProButtons
         return new RelayCommand(() =>
         {
           IPlugInWrapper wrapper = FrameworkApplication.GetPlugInWrapper("esri_core_openProjectButton");
-          var command = wrapper as ICommand;
-          if ((command != null) && command.CanExecute(null))
+          if ((wrapper is ICommand command) && command.CanExecute(null))
             command.Execute(null);
         });
       }

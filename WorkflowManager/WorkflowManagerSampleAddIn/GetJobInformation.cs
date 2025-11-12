@@ -54,13 +54,13 @@ namespace WorkflowManagerSampleAddIn
                     // Get properties for a job
                     var job = jobsManager.GetJob(jobId, true, true);
                     var title = "Job information and properties";
-                    var msg = $"\nJobId: {jobId}\n\n Job Information is modeled as: {job}\n\n For Example job.JobName: {job.JobName}";
+                    var msg = $"JobId: {jobId}\n\nJob Information is modeled as: {job}\n\n For Example job.JobName: {job.JobName}";
                     MessageBox.Show(msg, title);
                 }
                 catch (Exception ex)
                 {
                     var title = "Failed to get the job information, try Job Search first";
-                    var msg = $"\nJobId: {jobId}\n" + $"\nError: {ex.Message}";
+                    var msg = $"JobId: {jobId}\nError: {ex.Message}";
                     MessageBox.Show(msg, title);
                 }
             });

@@ -108,6 +108,7 @@ namespace GPToolInspector
         });
       }
     }
+
     #endregion Commands
 
     #region Properties
@@ -310,6 +311,23 @@ namespace GPToolInspector
 
     #endregion Helpers
 
+  }
+
+  internal class ContextMenuButton1 : Button
+  {
+    protected override void OnClick()
+    {
+      // TODO: Replace with your desired logic
+      ArcGIS.Desktop.Framework.Dialogs.MessageBox.Show("First Action triggered from context menu.", "GPToolInspector");
+    }
+  }
+  internal class ContextMenuButton2 : Button
+  {
+    protected override void OnClick()
+    {
+      // TODO: Replace with your desired logic
+      ArcGIS.Desktop.Framework.Dialogs.MessageBox.Show("First Action triggered from context menu.", "GPToolInspector");
+    }
   }
 
   /// <summary>

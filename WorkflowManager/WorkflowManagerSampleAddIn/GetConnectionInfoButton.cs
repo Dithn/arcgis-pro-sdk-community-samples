@@ -52,7 +52,7 @@ namespace WorkflowManagerSampleAddIn
             var serverUrl = WorkflowClientModule.ServerUrl;
 
             var title = "Workflow Manager Connection Info";
-            var msg = $"\nIsConnected:{isConnected}"
+            var msg = $"IsConnected:{isConnected}"
                 + $"\nItemId: {itemId}"
                 + $"\nServerUrl: {serverUrl}";
             MessageBox.Show(msg, title);

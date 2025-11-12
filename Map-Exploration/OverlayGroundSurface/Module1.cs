@@ -354,7 +354,7 @@ namespace OverlayGroundSurface
       Envelope envPoly = inputPoly.Extent;
       var interval = GetFishnetIntervalDistance(envPoly);
 
-      var mColor = System.Windows.Media.Colors.LightCyan;
+      var mColor = System.Windows.Media.Colors.LightBlue;
       var materialRed = new BasicMaterial
       {
         Color = mColor,

@@ -49,7 +49,7 @@ namespace BatchTracingCoreHost.Classes
             var outputTable = Helpers.GetProperty<string>(configuration, "outputTable", false);
             var functionFieldCount = Helpers.GetProperty<int>(configuration, "outputFunctionCount", false, 0);
             var sourceResultField = Helpers.GetProperty<string>(configuration, "sourceResultField", false);
-            var terminalName = Helpers.GetProperty<string>(configuration, "terminalName", false);
+            var terminalName = Helpers.GetProperty<string>(configuration, "terminalName", false); // Consider allowing this to be "Upstream" or "Downstream"
 
             #endregion
 

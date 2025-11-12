@@ -17,7 +17,11 @@
    limitations under the License.
 
 -->
-<ArcGIS defaultAssembly="GPToolInspector.dll" defaultNamespace="GPToolInspector" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+<ArcGIS defaultAssembly="GPToolInspector.dll" defaultNamespace="GPToolInspector"
+        xmlns="http://schemas.esri.com/DADF/Registry"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+
   <AddInInfo id="{e684d0ac-5ad5-48cf-a353-77f1ba1d92c9}" version="1.0" desktopVersion="3.4.55405" product="ArcGISPro">
     <Name>GPToolInspector</Name>
     <Description>GPToolInspector description</Description>
@@ -51,6 +55,27 @@
                 largeImage="ToolboxesFolder32">
           <tooltip heading="Show GP Tool Inspector">Shows the GP Tool Inspector Dockpane<disabledText /></tooltip>
         </button>
+        <button id="GPToolInspector_ContextMenu_Button1"
+       caption="First Action" keytip="B3"
+       className="ContextMenuButton1"
+       loadOnClick="true"
+       smallImage="Images\Button1Icon.png"
+       largeImage="Images\Button1Icon.png">
+          <tooltip heading="First Action">
+            Performs the first context menu action<disabledText />
+          </tooltip>
+        </button>
+        <button id="GPToolInspector_ContextMenu_Button2"
+                caption="Second Action" keytip="B4"
+                className="ContextMenuButton2"
+                loadOnClick="true"
+                smallImage="Images\Button2Icon.png"
+                largeImage="Images\Button2Icon.png">
+          <tooltip heading="Second Action">
+            Performs the second context menu action<disabledText />
+          </tooltip>
+        </button>
+
       </controls>
       <dockPanes>
         <dockPane id="GPToolInspector_InspectGPTool" caption="Inspect GP Tools"
@@ -59,6 +84,12 @@
           <content className="InspectGPToolView" />
         </dockPane>
       </dockPanes>
+      <menus>
+          <menu id="GPToolInspector_ContextMenu1" caption="Show Detail">
+            <button refID="GPToolInspector_ContextMenu_Button1"/>
+            <button refID="GPToolInspector_ContextMenu_Button2"/>
+          </menu>
+      </menus>
     </insertModule>
   </modules>
 </ArcGIS>

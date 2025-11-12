@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+   Copyright 2025 Esri
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+-->
+<ArcGIS defaultAssembly="AILayoutFunction.dll" defaultNamespace="AILayoutFunction" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{5a0e1684-0547-47e6-8193-0614887c5c02}" version="1.0" desktopVersion="3.6.58505" product="ArcGISPro">
+    <Name>AILayoutFunction</Name>
+    <Description>AILayoutFunction description</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>ArcGIS Pro SDK Team, arcgisprosdk@esri.com</Author>
+    <Company>esri, https://www.esri.com</Company>
+    <Date>7/9/2025 3:58:37 PM</Date>
+    <Subject>Framework</Subject>
+    <!-- Note subject can be one or more of these topics:
+                    Content, Framework, Editing, Geodatabase, Geometry, Geoprocessing, Layouts, Map Authoring, Map Exploration -->
+  </AddInInfo>
+  <modules>
+    <insertModule id="AILayoutFunction_Module" className="Module1" autoLoad="false" caption="Module1">
+      <tabs>
+      </tabs>
+      <groups>
+			</groups>
+      <controls>
+      </controls>
+    </insertModule>
+  </modules>
+  <categories>
+    <updateCategory refID="esri_core_ai_assistant_extension_category">
+      <insertComponent id="AILayoutFunction_AILayoutFunction" className="AILayoutFunctionClass">
+				<content>
+					<searchDescriptions>
+						<searchDescription>Create a layout using the current map</searchDescription>
+					</searchDescriptions>
+					<aiAssistantFunction name="CreateDefaultLayout">
+						<searchDescriptions>
+							<searchDescription>Create a default layout using the current map</searchDescription>
+						</searchDescriptions>
+					</aiAssistantFunction>
+					<aiAssistantFunction name="CreateLayoutWithLegend">
+						<searchDescriptions>
+							<searchDescription>Create default layout with legend using the current map</searchDescription>
+						</searchDescriptions>
+					</aiAssistantFunction>
+				</content>
+			</insertComponent>
+    </updateCategory>
+  </categories>
+</ArcGIS>

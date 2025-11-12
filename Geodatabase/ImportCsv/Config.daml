@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+   Copyright 2025 Esri
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+-->
+<ArcGIS defaultAssembly="ImportCsv.dll" defaultNamespace="ImportCsv" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{d50282a2-c951-4c4f-a3f8-a985911b7baa}" version="1.0" desktopVersion="3.4.0" product="ArcGISPro">
+    <Name>ImportCsv</Name>
+    <Description>ImportCsv description</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+		<Author>ArcGIS Pro SDK Team, arcgisprosdk@esri.com</Author>
+		<Company>esri, https://www.esri.com</Company>
+    <Date>6/4/2025 10:35:24</Date>
+    <Subject>Framework</Subject>
+    <!-- Note subject can be one or more of these topics:
+                    Content, Framework, Editing, Geodatabase, Geometry, Geoprocessing, Layouts, Map Authoring, Map Exploration -->
+  </AddInInfo>
+  <modules>
+    <insertModule id="ImportCsv_Module" className="Module1" autoLoad="false" caption="Module1">
+      <tabs>
+        <tab id="ImportCsv_Tab1" caption="FGB Importer" keytip="T1">
+          <group refID="ImportCsv_Group1"/>
+        </tab>
+      </tabs>
+      <groups>
+        <group id="ImportCsv_Group1" caption="Import from CSV" keytip="G1">
+          <button refID="ImportCsv_Import2FileGDB_ShowButton" size="large" />
+        </group>
+      </groups>
+      <controls>
+        <!-- add your controls here -->
+        <button id="ImportCsv_Import2FileGDB_ShowButton" keytip="B1"
+                caption="Show FGB Importer" className="Import2FileGDB_ShowButton" 
+                loadOnClick="true" smallImage="ImportMap16" largeImage="ImportMap32">
+          <tooltip heading="Show FGB Importer">
+            Show FGB Import dockpane<disabledText /></tooltip>
+        </button>
+      </controls>
+      <dockPanes>
+        <dockPane id="ImportCsv_Import2FileGDB" caption="Import 2FileGDB" 
+                  className="Import2FileGDBViewModel" dock="group" 
+                  dockWith="esri_core_projectDockPane">
+          <content className="Import2FileGDBView" />
+        </dockPane>
+      </dockPanes>
+    </insertModule>
+  </modules>
+</ArcGIS>

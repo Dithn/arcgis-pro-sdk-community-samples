@@ -45,8 +45,11 @@
         </Grid.RowDefinitions>
 
         <CheckBox x:Name="ShowVCS" IsChecked="{Binding Path=ShowVCS, Mode=TwoWay}" Content="Show VCS"
+                  IsEnabled="{Binding Path=IsVCSAvailable}"
                       Margin="5" VerticalAlignment="Center" Grid.Row="0"
-                  HorizontalAlignment="Left"></CheckBox>
+                  HorizontalAlignment="Left" ToolTipService.ShowOnDisabled="True">
+      <CheckBox.ToolTip>Select a Coordinate system that supports z values</CheckBox.ToolTip>
+        </CheckBox>
 
         <Border BorderBrush="{DynamicResource Esri_BorderBrush}" BorderThickness="2" Margin="2" Grid.Row="1">
             <mapping:CoordinateSystemsControl  x:Name="CoordinateSystemsControl"

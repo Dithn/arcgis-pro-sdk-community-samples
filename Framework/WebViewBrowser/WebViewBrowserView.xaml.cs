@@ -42,13 +42,6 @@ namespace WebViewBrowser
     public WebViewBrowserView()
     {
       InitializeComponent();
-      var viewModel = (WebViewBrowserViewModel)DataContext;
-      viewModel.WebViewClicked += ViewModel_WebViewClicked; ;
-    }
-
-    private void ViewModel_WebViewClicked(object sender, EventArgs e)
-    {
-      MessageBox.Show("Web view clicked");
     }
   }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+   Copyright 2025 Esri
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+-->
+<ArcGIS defaultAssembly="ConstructionSplitTool.dll" defaultNamespace="ConstructionSplitTool" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{4c0b369d-7eb7-4cf6-a0ec-28fdd1980dac}" version="1.0" desktopVersion="3.3">
+    <Name>ConstructionSplitTool</Name>
+    <Description>ConstructionSplitTool description</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>ArcGIS Pro SDK Team, arcgisprosdk@esri.com</Author>
+    <Company>esri, https://www.esri.com</Company>
+    <Date>8/27/2025 12:17:32 PM</Date>
+    <Subject>Editing</Subject>
+    <!-- Note subject can be one or more of these topics:
+                    Content, Framework, Editing, Geodatabase, Geometry, Geoprocessing, Layouts, Map Authoring, Map Exploration -->
+  </AddInInfo>
+  <modules>
+    <insertModule id="ConstructionSplitTool_Module" className="Module1" autoLoad="false" caption="Module1">     
+      <controls>
+        <!-- add your controls here -->
+        <tool id="ConstructionSplitTool_LineSplitsPolygons" categoryRefID="esri_editing_construction_polyline" caption="LineSplitsPolygons" className="LineSplitsPolygons" loadOnClick="true" smallImage="GenericButtonRed16" largeImage="GenericButtonRed32" keytip="LSP"> 
+          <!--note: use esri_editing_construction_polyline,  esri_editing_construction_polygon for categoryRefID as needed-->
+          <tooltip heading="Split Polygon">Creates a line feature with the active template and splits intersecting polygon features in the map. The line is also split at points of intersection with the polygon feature(s).<disabledText /></tooltip>
+          <content guid="5debd642-60ad-463d-adff-4a753c294e64" />
+        </tool>
+        <tool id="ConstructionSplitTool_PointSplitsLines" categoryRefID="esri_editing_construction_point" caption="PointSplitsLines" className="PointSplitsLines" loadOnClick="true" smallImage="GenericButtonRed16" largeImage="GenericButtonRed32" keytip="PSL">
+          <!--note: use esri_editing_construction_polyline,  esri_editing_construction_polygon for categoryRefID as needed-->
+          <tooltip heading="Split Line">Creates a point feature with the active template and splits any intersecting line features.<disabledText /></tooltip> 
+          <content guid="a68a892e-6844-4f69-a1cd-3000ed1e0bc2" />
+        </tool>
+        <tool id="ConstructionSplitTool_LineSplitsLines" categoryRefID="esri_editing_construction_polyline" caption="LineSplitsLines" className="LineSplitsLines" loadOnClick="true" smallImage="GenericButtonRed16" largeImage="GenericButtonRed32" keytip="LSL">
+          <!--note: use esri_editing_construction_polyline,  esri_editing_construction_polygon for categoryRefID as needed-->
+          <tooltip heading="Split Line">Creates a line feature with the active template and splits intersecting lines from the same layer as well as other editable line layers in the map.<disabledText /></tooltip>
+          <content guid="729b4a72-f0ae-4aac-98c8-1d5d1ee96aa0" />
+        </tool>
+      </controls>
+    </insertModule>
+  </modules>
+</ArcGIS>

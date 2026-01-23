@@ -25,8 +25,8 @@ namespace MyCopilotAddin
   /// Shows a sample addin development workflow using GitHub Copilot to assist in the implementation.  This ArcGIS Pro sample add-in uses a DockPane to guide the user through a GIS workflow.  The matching ProGuide can be found here: [ProGuide writing an addin with copilot](https://github.com/Esri/arcgis-pro-sdk/wiki/ProGuide-writing-an-addin-with-copilot)
   /// </summary>
   /// <remarks>
-  /// 1. Download the Community Sample data (see under the 'Resources' section for downloading sample data).  The sample data contains a dataset called 'Interacting with Maps' with both 2D and 3D data.  Make sure that the Sample data is unzipped in c:\data and "C:\Data\Elevation\" is available.
-  /// 1. Open the project "HawaiiElevation.aprx" in the "C:\Data\Elevation\" folder since this project contains 2D and 3D data.
+  /// 1. Download the Community Sample data (see under the 'Resources' section for downloading sample data). Make sure that the Sample data is unzipped in c:\data and "C:\Data\Elevation\" is available.
+  /// 1. The ArcGIS Pro project used for this sample is 'C:\Data\Elevation\HawaiiElevation.ppkx'
   /// 1. Follow the steps in the ProGuide to see how GitHub Copilot can assist you in writing an addin for ArcGIS Pro.
   /// [ProGuide writing an addin with copilot](https://github.com/Esri/arcgis-pro-sdk/wiki/ProGuide-writing-an-addin-with-copilot)
   /// </remarks>

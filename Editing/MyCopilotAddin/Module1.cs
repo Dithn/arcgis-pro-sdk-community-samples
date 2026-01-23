@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using ArcGIS.Core.CIM;
+using ArcGIS.Core.Data;
+using ArcGIS.Core.Geometry;
+using ArcGIS.Desktop.Catalog;
+using ArcGIS.Desktop.Core;
+using ArcGIS.Desktop.Editing;
+using ArcGIS.Desktop.Extensions;
+using ArcGIS.Desktop.Framework;
+using ArcGIS.Desktop.Framework.Contracts;
+using ArcGIS.Desktop.Framework.Dialogs;
+using ArcGIS.Desktop.Framework.Threading.Tasks;
+using ArcGIS.Desktop.KnowledgeGraph;
+using ArcGIS.Desktop.Layouts;
+using ArcGIS.Desktop.Mapping;
+
+namespace MyCopilotAddin
+{
+  /// <summary>
+  /// Shows a sample addin development workflow using GitHub Copilot to assist in the implementation.  This ArcGIS Pro sample add-in uses a DockPane to guide the user through a GIS workflow.  The matching ProGuide can be found here: [ProGuide writing an addin with copilot](https://github.com/Esri/arcgis-pro-sdk/wiki/ProGuide-writing-an-addin-with-copilot)
+  /// </summary>
+  /// <remarks>
+  /// 1. Download the Community Sample data (see under the 'Resources' section for downloading sample data).  The sample data contains a dataset called 'Interacting with Maps' with both 2D and 3D data.  Make sure that the Sample data is unzipped in c:\data and "C:\Data\Elevation\" is available.
+  /// 1. Open the project "HawaiiElevation.aprx" in the "C:\Data\Elevation\" folder since this project contains 2D and 3D data.
+  /// 1. Follow the steps in the ProGuide to see how GitHub Copilot can assist you in writing an addin for ArcGIS Pro.
+  /// [ProGuide writing an addin with copilot](https://github.com/Esri/arcgis-pro-sdk/wiki/ProGuide-writing-an-addin-with-copilot)
+  /// </remarks>
+  internal class Module1 : Module
+    {
+        private static Module1 _this = null;
+
+        /// <summary>
+        /// Retrieve the singleton instance to this module here
+        /// </summary>
+        public static Module1 Current => _this ??= (Module1)FrameworkApplication.FindModule("MyCopilotAddin_Module");
+
+        #region Overrides
+        /// <summary>
+        /// Called by Framework when ArcGIS Pro is closing
+        /// </summary>
+        /// <returns>False to prevent Pro from closing, otherwise True</returns>
+        protected override bool CanUnload()
+        {
+            //TODO - add your business logic
+            //return false to ~cancel~ Application close
+            return true;
+        }
+
+        #endregion Overrides
+
+    }
+}

@@ -30,6 +30,7 @@ using ArcGIS.Desktop.Framework.Threading.Tasks;
 using ArcGIS.Desktop.KnowledgeGraph;
 using ArcGIS.Desktop.Layouts;
 using ArcGIS.Desktop.Mapping;
+using Python.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +79,18 @@ namespace GPToolInspector
       return true;
     }
 
+    protected override bool Initialize()
+    {
+      // initialize the python engine
+      Runtime.PythonDLL = @"C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python313.dll";
+      PythonEngine.Initialize();
+      return true;
+    }
+
+    protected override void Uninitialize()
+    {
+      PythonEngine.Shutdown();
+    }
     #endregion Overrides
 
   }
